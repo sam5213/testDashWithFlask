@@ -3,10 +3,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
-from flask import Flask
+from flask import Flask, render_template
 from flask_socketio import SocketIO, send, emit
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, server=server, url_base_pathname='/dash/')
 server = Flask(__name__)
 socketio = SocketIO(server)
 
@@ -36,5 +36,12 @@ def disconnect():
     print('Client disconnected')
 
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template(path or 'index.html', base_url=base_url)
+
+
 if __name__ == '__main__':
+    base_url = request.host_url
     socketio.run(server, debug=True)
