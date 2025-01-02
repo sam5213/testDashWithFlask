@@ -1,0 +1,4 @@
+dash==1.19.0
+plotly==5.3.1
+flask==2.0.1
+flask-socketio==5.0.1
