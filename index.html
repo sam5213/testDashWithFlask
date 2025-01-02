@@ -12,6 +12,10 @@
     <script src="https://cdn.dash.app/v1/components.min.js"></script>
     <script src="https://cdn.dash.app/v1/dash-core-components.min.js"></script>
     <script src="https://cdn.dash.app/v1/dash-html-components.min.js"></script>
-    <script src="/dash_app.py"></script>
+    <script>
+        window.onload = function() {
+            window.location.href = "{{ base_url }}dash/";
+        };
+    </script>
 </body>
 </html>
