@@ -35,24 +35,23 @@ def connect():
 def disconnect():
     print('Client disconnected')
 
-@app.route('/', methods=['GET', 'POST'])
-def webhook(path):
-    if request.method == 'POST':
-        data = request.get_json()
-        if data and 'ref' in data and data['ref'] == 'webhook':
-            return render_template(path or 'index.html', base_url=base_url)
-        else:
-            abort(400)
-    else:
-        abort(405)
-
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
     return render_template(path or 'index.html', base_url=base_url)
 
+@app.route('/dash', methods=['GET', 'POST'])
+def webhook():
+    if request.method == 'POST':
+        data = request.get_json()
+        if data and 'ref' in data and data['ref'] == 'webhook':
+            # Здесь вы можете добавить код для обработки входящих данных от веб-хуков
+            pass
+        else:
+            abort(400)
+    else:
+        abort(405)
 
 if __name__ == '__main__':
     base_url = request.host_url
-    port = int(os.environ.get('PORT', 5000))
-    socketio.run(server, port=port, debug=True)
+    socketio.run(server, debug=True)
